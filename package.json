@@ -1,0 +1,66 @@
+{
+  "name": "oz-command-center",
+  "version": "0.1.0",
+  "private": true,
+  "engines": {
+    "node": ">=22.13.0"
+  },
+  "scripts": {
+    "install:ci": "node scripts/install-ci.mjs",
+    "dev": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vite",
+    "build": "node scripts/build-verified.mjs",
+    "start": "WRANGLER_LOG_PATH=.wrangler/wrangler.log vinext start",
+    "test": "node --import tsx --test tests/*.test.mjs tests/*.test.ts",
+    "typecheck": "tsc --noEmit",
+    "verify:phase0": "npm run verify:phase1a",
+    "verify:phase1a": "npm run lint && npm run typecheck && npm run build && npm test && npm run db:verify",
+    "verify:phase1b": "npm run lint && npm run typecheck && npm run build && npm test && npm run db:verify && npm run security:scan",
+    "validate:artifact": "node scripts/validate-artifact.mjs",
+    "lint": "eslint . --ignore-pattern dist --ignore-pattern .next",
+    "db:verify": "node scripts/verify-migrations.mjs && node scripts/verify-local-phase1a-db.mjs && node scripts/verify-local-phase1b-db.mjs",
+    "security:scan": "node scripts/scan-tracked-secrets.mjs",
+    "supabase:start": "supabase start",
+    "supabase:stop": "supabase stop",
+    "supabase:status": "supabase status"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.112.3",
+    "drizzle-orm": "0.45.2",
+    "next": "16.3.2",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@cloudflare/vite-plugin": "1.53.1",
+    "@tailwindcss/postcss": "4.2.1",
+    "@types/node": "22.19.19",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "6.1.0",
+    "@vitejs/plugin-rsc": "0.5.34",
+    "eslint": "9.39.4",
+    "eslint-config-next": "16.3.2",
+    "react-server-dom-webpack": "19.2.8",
+    "supabase": "2.115.0",
+    "tailwindcss": "4.2.1",
+    "tsx": "4.23.12",
+    "typescript": "5.9.3",
+    "vinext": "1.0.0-beta.8",
+    "vite": "8.2.2",
+    "wrangler": "4.125.0"
+  },
+  "overrides": {
+    "@babel/core": "7.29.7",
+    "fast-uri": "3.1.6",
+    "js-yaml": "4.3.1",
+    "minimatch@3.1.5": {
+      "brace-expansion": "1.1.18"
+    },
+    "minimatch@10.2.5": {
+      "brace-expansion": "5.0.9"
+    }
+  },
+  "type": "module",
+  "displayName": "OZ COMMAND CENTER"
+}

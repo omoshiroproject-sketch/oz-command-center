@@ -1,0 +1,36 @@
+project_id = "oz-command-center-development"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "graphql_public", "pgmq_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[db]
+port = 54322
+shadow_port = 54320
+major_version = 17
+
+[auth]
+enabled = true
+site_url = "http://localhost:5173"
+additional_redirect_urls = ["http://127.0.0.1:5173", "http://localhost:5173"]
+jwt_expiry = 3600
+enable_signup = true
+
+[auth.external.google]
+enabled = true
+client_id = "env(SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_ID)"
+secret = "env(SUPABASE_AUTH_EXTERNAL_GOOGLE_CLIENT_SECRET)"
+skip_nonce_check = false
+
+[edge_runtime]
+enabled = true
+policy = "per_worker"
+
+[functions.oz-job-dispatch]
+verify_jwt = true
+
+[analytics]
+enabled = false
